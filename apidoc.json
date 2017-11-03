@@ -1,0 +1,9 @@
+{
+  "name": "Auth API",
+  "version": "1.0.0",
+  "description": "HTTP API service",
+  "title": "API documentation",
+  "doc-url": "docs.bidir.co",
+  "url": "api.bidir.co"
+}
+
