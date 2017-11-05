@@ -1,5 +1,4 @@
-'use strict';
-// Access Layer for User Data.
+'use strict'; // Access Layer for User Data.
 
 /**
  * Load Module Dependencies.
@@ -10,11 +9,16 @@ const _       = require('lodash');
 const co      = require('co');
 
 const User        = require('../models/user');
+const Account      = require('../models/account');
 const Admin       = require('../models/admin');
+
 const mongoUpdate = require('../lib/mongo-update');
 
 var returnFields = User.attributes;
 var population = [{
+  path: 'account',
+  select: Account.attributes
+},{
   path: 'admin',
   select: Admin.attributes
 }];
@@ -122,15 +126,19 @@ exports.get = function get(query, populate) {
     if(populate) {
       user = yield User.findOne(query, returnFields).populate(population).exec();
 
-      if(user) {
-        if(user.admin) {
-          let admin = yield Admin.populate(user.admin, [{
-            path: 'admin',
-            select: Admin.attributes
-          }]);
+      if(user && user.player) {
+        let player = yield Player.populate(user.player, [{
+          path: 'device',
+          select: Device.attributes
+        },{
+          path: 'preferences',
+          select: Preference.attributes
+        },{
+          path: 'game',
+          select: Game.attributes
+        }]);
 
-          user.admin = admin;
-        }
+        user.player = player;
       }
     } else {
       user = yield User.findOne(query, returnFields).exec();

@@ -21,6 +21,7 @@ var Schema = mongoose.Schema;
 var UserSchema = new Schema({
     username:       { type: String, unique: true },
     admin:          { type: Schema.Types.ObjectId,    ref: 'Admin' },
+    account:        { type: Schema.Types.ObjectId,    ref: 'Account' },
     realm:          { type: String, default: 'admin' },
     role:           { type: String, default: 'general' },
     password:       { type: String },
@@ -37,9 +38,8 @@ var UserSchema = new Schema({
  */
 UserSchema.statics.attributes = {
     username: 1,
-    consumer: 1,
+    account: 1,
     admin: 1,
-    service_provider: 1,
     archived: 1,
     last_login: 1,
     date_created: 1,

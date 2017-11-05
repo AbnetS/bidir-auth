@@ -9,14 +9,14 @@ const moment  = require('moment');
 const _       = require('lodash');
 const co      = require('co');
 
-const Admin       = require('../models/admin');
-const User        = require('../models/user');
+const Admin    = require('../models/admin');
+const User    = require('../models/user');
 const mongoUpdate = require('../lib/mongo-update');
 
 const returnFields = Admin.attributes;
 var population = [{
-    path: 'user',
-    select: User.attributes
+  path: 'user',
+  select: User.attributes
 }];
 
 /**
@@ -28,17 +28,17 @@ var population = [{
  * @param {Object}  adminData  Data for the admin to create
  */
 exports.create = function create(adminData) {
-    debug('creating a new admin');
+  debug('creating a new admin');
 
 
-    return co(function* () {
+  return co(function* () {
 
-        let newAdmin = new Admin(adminData);
-        let admin = yield newAdmin.save();
+    let newAdmin = new Admin(adminData);
+    let admin = yield newAdmin.save();
 
-        return yield exports.get({ _id: admin._id});
+    return yield exports.get({ _id: admin._id});
 
-    });
+  });
 
 };
 
@@ -51,20 +51,20 @@ exports.create = function create(adminData) {
  * @param {Object}  query   Query Object
  */
 exports.delete = function deleteItem(query) {
-    debug(`deleting admin: ${query}`);
+  debug(`deleting admin: ${query}`);
 
-    return co(function* () {
-        let admin = yield exports.get(query);
-        let _empty = {};
+  return co(function* () {
+    let admin = yield exports.get(query);
+    let _empty = {};
 
-        if(!admin) {
-            return _empty;
-        } else {
-            yield admin.remove();
+    if(!admin) {
+      return _empty;
+    } else {
+      yield admin.remove();
 
-            return admin;
-        }
-    });
+      return admin;
+    }
+  });
 };
 
 /**
@@ -77,19 +77,19 @@ exports.delete = function deleteItem(query) {
  * @param {Object} updates  Update data
  */
 exports.update = function update(query, updates) {
-    debug(`updating admin: ${query}`);
+  debug(`updating admin: ${query}`);
 
-    let now = moment().toISOString();
-    let opts = {
-        'new': true,
-        select: returnFields
-    };
+  let now = moment().toISOString();
+  let opts = {
+    'new': true,
+    select: returnFields
+  };
 
-    updates = mongoUpdate(updates);
+  updates = mongoUpdate(updates);
 
-    return Admin.findOneAndUpdate(query, updates, opts)
-        .populate(population)
-        .exec();
+  return Admin.findOneAndUpdate(query, updates, opts)
+              .populate(population)
+              .exec();
 };
 
 /**
@@ -100,11 +100,11 @@ exports.update = function update(query, updates) {
  * @param {Object} query Query Object
  */
 exports.get = function get(query) {
-    debug(`getting admin ${query}`);
+  debug(`getting admin ${query}`);
 
-    return Admin.findOne(query, returnFields)
-        .populate(population)
-        .exec();
+  return Admin.findOne(query, returnFields)
+              .populate(population)
+              .exec();
 };
 
 /**
@@ -115,14 +115,14 @@ exports.get = function get(query) {
  * @param {Object} query Query Object
  */
 exports.getCollection = function getCollection(query, qs) {
-    debug('fetching a collection of admins');
+  debug('fetching a collection of admins');
 
-    return co(function*() {
-        let admins = yield Admin.find(query, returnFields).populate(population).exec();
+  return co(function*() {
+    let admins = yield Admin.find(query, returnFields).populate(population).exec();
 
-        return admins;
+    return admins;
 
-    });
+  });
 
 };
 
@@ -134,33 +134,32 @@ exports.getCollection = function getCollection(query, qs) {
  * @param {Object} query Query Object
  */
 exports.getCollectionByPagination = function getCollection(query, qs) {
-    debug('fetching a collection of admins');
+  debug('fetching a collection of admins');
 
-    let opts = {
-        select:  returnFields,
-        sort:   qs.sort || {},
-        populate: population,
-        page:     qs.page,
-        limit:    qs.limit
-    };
+  let opts = {
+    select:  returnFields,
+    sort:   qs.sort || {},
+    populate: population,
+    page:     qs.page,
+    limit:    qs.limit
+  };
 
-    return new Promise((resolve, reject) => {
-        Admin.paginate(query, opts, function (err, docs) {
-            if(err) {
-                return reject(err);
-            }
+  return new Promise((resolve, reject) => {
+    Admin.paginate(query, opts, function (err, docs) {
+      if(err) {
+        return reject(err);
+      }
 
-            let data = {
-                total_pages: docs.pages,
-                total_docs_count: docs.total,
-                current_page: docs.page,
-                docs: docs.docs
-            };
+      let data = {
+        total_pages: docs.pages,
+        total_docs_count: docs.total,
+        current_page: docs.page,
+        docs: docs.docs
+      };
 
-            resolve(data);
+      resolve(data);
 
-        });
     });
+  });
 
 };
-
