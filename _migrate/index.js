@@ -16,11 +16,9 @@ mongoose.connection.on('connected', () => {
   debug('Connected to mongodb');
 });
 
-const plans = require('./plan');
-
 
 co(function* () {
-  let collection = [ plans ];
+  let collection = [  ];
 
   for(let item of collection) {
     yield item();
