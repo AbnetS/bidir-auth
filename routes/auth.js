@@ -27,7 +27,7 @@ var router  = Router();
  *
  * @apiParamExample Request Example:
  *  {
- *    "username": "mary.jane@gmail.com",
+ *    "username": "officer@bidir.com",
  *    "password": "passwordl"
  *  }
  *
@@ -44,7 +44,7 @@ var router  = Router();
  *      last_login: '2017-03-16T10:50:52.305Z',
  *      role: "manager",
  *      realm: "consumer",
- *      consumer: {
+ *      account: {
  *        _id : "556e1174a8952c9521286a60",
  *        preferences : "556e1174a8952c9521286a60",
  *        first_name: "Mary",
