@@ -36,15 +36,14 @@ exports.login = function* loginUser(next) {
   try {
 
     // Validate Login Data
-    this.checkBody('email')
-	  	.notEmpty()
-	  	.isEmail('Please Provide a valid Email!');
+    this.checkBody('username')
+	  	.notEmpty('Please Provide a valid Username!');
     this.checkBody('password')
         .notEmpty();
 
 
     if(this.errors) {
-      throw new Error('Please correct the email and password');
+      throw new Error('Please correct the username and password');
 
     }
 
@@ -62,7 +61,7 @@ exports.login = function* loginUser(next) {
   //Login Player Based
   function loginUser(body) {
     return co(function* () {
-      let user = yield UserModel.findOne({ username: body.email }).exec();
+      let user = yield UserModel.findOne({ username: body.username }).exec();
 
       if(!user || user.archived) {
         throw new Error('User with the given credentials does not exist');
