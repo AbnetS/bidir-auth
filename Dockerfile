@@ -1,4 +1,4 @@
-# Dockerfile for bidir Auth service
+# Dockerfile for bidir dev env't Auth service
 FROM node:8.8.1
 
 MAINTAINER Teferi Assefa <teferi.assefa@gmail.com>
