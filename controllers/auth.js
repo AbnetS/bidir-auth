@@ -96,13 +96,13 @@ exports.login = function* loginUser(next) {
 
           yield TokenDal.update(query, updates);
         } else {
-          tokenValue = createToken();
+          //tokenValue = createToken();
           
           let query = {
             _id: token._id
           };
           let updates = {
-            value: tokenValue,
+            //value: tokenValue,
             revoked: false
           };
 
