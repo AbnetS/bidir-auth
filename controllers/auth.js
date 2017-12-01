@@ -97,6 +97,7 @@ exports.login = function* loginUser(next) {
           yield TokenDal.update(query, updates);
         } else {
           //tokenValue = createToken();
+          tokenValue = token.value;
           
           let query = {
             _id: token._id
