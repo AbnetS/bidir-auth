@@ -10,7 +10,6 @@ var paginator = require('mongoose-paginate');
 var Schema = mongoose.Schema;
 
 var BranchSchema = new Schema({
-    MFI:            { type: Schema.Types.ObjectId, ref:'MFI', required: true},
     name:           { type: String, required: true, unique: true },
     location:       { type: String, required: true },    
     opening_date:   { type: Date },
