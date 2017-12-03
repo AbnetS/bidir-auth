@@ -48,7 +48,16 @@ BranchSchema.pre('save', function preSaveMiddleware(next) {
  * Filter Branch Attributes to expose
  */
 BranchSchema.statics.whitelist = {
-  __v: 0
+   _id: 1,
+  name: 1,
+  location: 1,
+  opening_date: 1,
+  branch_type: 1,
+  email: 1,
+  phone: 1,
+  status: 1,
+  date_created: 1,
+  last_modified: 1
 };
 
 

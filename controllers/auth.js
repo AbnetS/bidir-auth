@@ -72,6 +72,10 @@ exports.login = function* loginUser(next) {
         throw new Error('You are not allowed to do this');
       }
 
+      if(user.status === 'pending') {
+        throw new Error('Account Not Activated Yet!');
+      }
+
       let isMatch = yield user.verifyPassword(body.password);
       if(!isMatch) {
         throw new Error('Password Provided is incorrect');
