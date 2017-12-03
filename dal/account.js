@@ -24,12 +24,16 @@ var population = [{
   select: User.attributes
 },{
   path: 'role',
-  select: Role.attributes
+  select: Role.attributes,
+  populate: {
+    path: 'permissions',
+    select: Permission.attributes
+  }
 },{
-  path: 'permissions',
-  select: Permission.attributes
+  path: 'default_branch',
+  select: Branch.attributes
 },{
-  path: 'branch',
+  path: 'access_branches',
   select: Branch.attributes
 }];
 

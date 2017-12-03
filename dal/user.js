@@ -31,6 +31,9 @@ var population = [{
       path: 'permissions',
       select: Permission.attributes
     }
+  },{
+      path: 'access_branches',
+      select: Branch.attributes
   }]
 },{
   path: 'admin',
@@ -132,7 +135,7 @@ exports.update = function update(query, updates) {
 exports.get = function get(query, populate) {
   debug('getting user ', query);
 
-  populate = populate || false;
+  populate = true;
 
   return co(function*() {
     let user;
