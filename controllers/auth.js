@@ -37,9 +37,9 @@ exports.login = function* loginUser(next) {
 
     // Validate Login Data
     this.checkBody('username')
-	  	.notEmpty('Please Provide a valid Username!');
+	  	.notEmpty('Please Provide A Valid Username');
     this.checkBody('password')
-        .notEmpty();
+        .notEmpty('Please Provide A Valid Password');
 
 
     if(this.errors) {
