@@ -67,8 +67,8 @@ exports.fetchOne = function* fetchOneUser(next) {
 exports.updateStatus = function* updateUser(next) {
   debug(`updating status user: ${this.params.id}`);
 
-  this.checkBody('is_active')
-      .notEmpty('is_active should not be empty');
+  this.checkBody('status')
+      .notEmpty('Status should not be empty');
 
   let query = {
     _id: this.params.id
@@ -181,7 +181,7 @@ exports.fetchAllByPagination = function* fetchAllUsers(next) {
 
   let sortType = this.query.sort_by;
   let sort = {};
-  sortType ? (sort[sortType] = 1) : null;
+  sortType ? (sort[sortType] = -1) : (sort.date_created = -1 );
 
   let opts = {
     page: +page,
@@ -195,7 +195,7 @@ exports.fetchAllByPagination = function* fetchAllUsers(next) {
     this.body = users;
   } catch(ex) {
     return this.throw(new CustomError({
-      type: 'FETCH_PAGINATED_USERS_COLLECTION_ERROR',
+      type: 'FETCH_USERS_COLLECTION_ERROR',
       message: ex.message
     }));
   }
