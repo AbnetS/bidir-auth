@@ -15,6 +15,7 @@ const OPEN_ENDPOINTS = [
     /\/assets\/.*/,
     '/auth/signup',
     '/auth/login',
+    '/auth/logout',
     '/'
 ];
 
