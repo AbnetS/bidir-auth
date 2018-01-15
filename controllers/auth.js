@@ -14,10 +14,12 @@ const config      = require('../config');
 const CustomError = require('../lib/custom-error');
 
 const UserModel   = require('../models/user');
+const Branch      = require('../models/branch');
 
 const UserDal     = require('../dal/user');
 const TokenDal    = require('../dal/token');
 const LogDal      = require('../dal/log');
+const BranchDal   = require('../dal/branch');
 
 
 /**
@@ -137,7 +139,16 @@ exports.login = function* loginUser(next) {
 
       user = yield UserDal.get({ _id: user._id }, true);
 
-      data =  { token: tokenValue, user: user.toJSON() };
+      user = user.toJSON();
+
+      if(user.account && user.account.multi_branches) {
+        let branches  = yield BranchDal.getCollection({});
+
+        user.account.access_branches = branches.slice();
+
+      }
+
+      data =  { token: tokenValue, user: user };
 
       yield LogDal.track({ event: 'login', user: data.user._id });
 
